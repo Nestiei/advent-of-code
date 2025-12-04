@@ -39,9 +39,17 @@ func GetTurns(line string) (int, error) {
 	return 0, fmt.Errorf("invalid line format")
 }
 
+func Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+
+	return x
+}
+
 func main() {
 	var dial int = 50
-	var password int = 0
+	var password, passwordClick int = 0, 0
 
 	// Read file lines.
 	lines, err := ReadFileLines("input.txt")
@@ -52,11 +60,25 @@ func main() {
 
 	// Process each line.
 	for _, line := range lines {
+		fmt.Println(line)
+
 		turns, err := GetTurns(line)
 		if err != nil {
 			fmt.Println("Error parsing turns:", err)
 			return
 		}
+
+		var countZeros int = 0
+		for i := range Abs(turns) {
+			if turns > 0 && (dial+i+1)%100 == 0 {
+				countZeros += 1
+			} else if turns < 0 && (dial-(i+1))%100 == 0 {
+				countZeros += 1
+			}
+		}
+
+		passwordClick += countZeros
+		fmt.Println("Crossed zero", countZeros, "times. Total:", passwordClick)
 
 		dial = (dial + turns) % 100
 		fmt.Println("Dial rotated by", turns, "to position:", dial)
@@ -66,5 +88,5 @@ func main() {
 		}
 	}
 
-	fmt.Println("Final Password:", password)
+	fmt.Println("Part 1 Password:", password, "-> Part 2 Password:", passwordClick)
 }
