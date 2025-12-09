@@ -2,25 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"nestiei/files"
 	"strconv"
 	"strings"
 )
-
-func ReadFileLines(path string) ([]string, error) {
-	fileBytes, error := os.ReadFile(path)
-	if error != nil {
-		fmt.Println("Error reading file:", error)
-		return nil, error
-	}
-	fileString := string(fileBytes)
-
-	return SplitLines(fileString), error
-}
-
-func SplitLines(s string) []string {
-	return strings.Split(strings.TrimSpace(s), "\n")
-}
 
 func GetTurns(line string) (int, error) {
 	line = strings.TrimSpace(line)
@@ -52,7 +37,7 @@ func main() {
 	var password, passwordClick int = 0, 0
 
 	// Read file lines.
-	lines, err := ReadFileLines("input.txt")
+	lines, err := files.ReadFileLines("input.txt")
 	if err != nil {
 		fmt.Println("Failed to read lines from file.")
 		return

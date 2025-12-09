@@ -1,0 +1,3 @@
+module nestiei/files
+
+go 1.25.5
